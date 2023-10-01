@@ -1,0 +1,59 @@
+// constants won't change. They're used here to set pin numbers:
+const int SENSOR_PIN = 13; // the Arduino's input pin that connects to the sensor's SIGNAL pin 
+
+// Variables will change:
+int lastState = LOW;      // the previous state from the input pin
+int currentState;         // the current reading from the input pin
+int trigPin1=9;
+int echoPin1=8;
+
+void setup() {
+  // initialize serial communication at 9600 bits per second:
+  Serial.begin(9600);
+  // initialize the Arduino's pin as aninput
+  pinMode(SENSOR_PIN, INPUT);
+  pinMode(trigPin1, OUTPUT);
+  pinMode(echoPin1, INPUT);
+}
+
+void loop() {
+
+
+
+
+long duration1, distance1;
+  digitalWrite(trigPin1, LOW);  // Added this line
+  delayMicroseconds(2); // Added this line
+  digitalWrite(trigPin1, HIGH);
+  delayMicroseconds(10); // Added this line
+  digitalWrite(trigPin1, LOW);
+  duration1 = pulseIn(echoPin1, HIGH);
+  distance1 = (duration1/2) / 29.1;
+
+   if (distance1 >= 241 || distance1 <= 0){
+    Serial.println("Out of range");
+    delay(500);
+  }
+  else {
+    Serial.print ( "Sensor1  ");
+    Serial.print ( distance1);
+    Serial.println("cm");
+    delay(500);
+    // read the state of the the input pin:
+  currentState = digitalRead(SENSOR_PIN);
+
+  if( currentState == HIGH)
+   { Serial.println("Touch sensor activated and inrange  ");
+
+  // save the the last state
+  currentState=LOW;
+   }
+
+
+
+  }
+
+
+
+}
+}
